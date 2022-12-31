@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+
+struct ListNode {
+		int val;
+		ListNode *next;
+		ListNode() : val(0), next(nullptr) {}
+		ListNode(int x) : val(x), next(nullptr) {}
+		ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+			ListNode* curr = nullptr,*temhead = head;
+			ListNode* q = nullptr,*r = nullptr,*last = nullptr;
+			ListNode* p = temhead;
+			int i = 0,cur = 0,size = 0;
+			bool firstchange = false;
+
+			for(curr = head;curr;curr = curr->next)size++;
+			curr = head;
+			
+     			while(curr || size == cur){  
+				
+				if(i < k){
+					
+					if(i==k-1 && last && curr)last->next = curr;
+					if(curr)curr = curr->next;
+					i++;cur++;
+					
+				}else{
+					last = temhead;
+					p = temhead;
+					q = curr;r = nullptr;
+					while(p!=curr){
+						r = q;
+						q = p;
+						p = p->next;
+						q->next = r;
+					}
+					if(firstchange == false){
+						head = q;
+						firstchange = true;
+					}
+					temhead = curr;
+					i = 0;
+				}
+			}
+			return head;
+		}
+};
